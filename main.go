@@ -1,21 +1,34 @@
 package main
 
-import (
-	"fmt"
-	"os/exec"
-	"time"
-)
+import "time"
 func main(){
-
-	url:="https://wiwi.blog/blog/"
+	db,err:=ReadSQL()//打开数据库
+	if err!=nil{
+		db.Close()
+	}
 	for {
-		fmt.Println("开始执行")
-    deal:= EtagAndSave(url)
-     if deal==true{
-		DealCmd(url)
+	SelectData(db)
+	start(db)
+	time.Sleep(1*time.Minute)
+	}
+	/*
+	for{
+	 fmt.Println("开始")
+     
+	
+	 for i,v:=range urls{
+	   cleanUrl:= strings.TrimSpace(v)
+	   fmt.Println(cleanUrl)
+	   err:=EtagAndSave(cleanUrl,i)
+	   if err!=true{
+        fmt.Println(i,"失败")
+		continue
+	   }
+	   DealCmd(cleanUrl)
 	 }
+	 fmt.Println("结束")
+	 time.Sleep(15*time.Second)
 	 
-	 time.Sleep(3*time.Minute)
 	}
 }
 func DealCmd (url string){
@@ -26,4 +39,5 @@ func DealCmd (url string){
    if err!=nil{
     fmt.Println("通知失败")
    }
+	*/
 }

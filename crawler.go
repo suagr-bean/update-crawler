@@ -1,28 +1,28 @@
 package main
 
 import (
-	"net/http"
-	"os"
+	"database/sql"
 	"fmt"
+	"io"
+	"net/http"
 )
 type Data struct {
 	Url string 
 	Etag string
+	Code int
 }
-func EtagAndSave(url string)bool{
-	 readetag,_:=os.ReadFile("etag.text")
-	data,err:= Crawler(url,string(readetag))
-	if err!=nil{
-		fmt.Println("爬取失败")
-		return false 
+func start(db*sql.DB){
+	rows,_:=db.Query("SELECT url FROM crawler")
+	for rows.Next(){
+		var url string
+		rows.Scan(&url)
+       fmt.Println(url)
+	  data,err:= Crawler(url,"")
+	  if err!=nil{
+		fmt.Println("wrong")
+	  }
+	  fmt.Println(data)
 	}
-	if data.Etag!=""{
-     os.WriteFile("etag.text",[]byte(data.Etag),0644)
-	}else{
-		fmt.Println("没更新")
-		return false
-	}
-	return true
 }
 func Crawler(url string,etag string)(Data,error){
    client:=&http.Client{}
@@ -35,10 +35,14 @@ func Crawler(url string,etag string)(Data,error){
   }
   defer resp.Body.Close()
   update:=false
+  fmt.Println(resp.StatusCode)
+  datas,_:=io.ReadAll(resp.Body)
+ fmt.Println(string(datas))
   switch resp.StatusCode{
   
   case http.StatusNotModified:
 	 update=false
+	
   case http.StatusOK:
 	update=true 
   }
