@@ -3,7 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	
+	"io"
+
 	"net/http"
 )
 type Data struct {
@@ -35,6 +36,8 @@ func Crawler(url string,etag string)(Data,error){
   }
   defer resp.Body.Close()
   update:=false
+   datas,_:=io.ReadAll(resp.Body)
+   fmt.Println(string(datas))
   fmt.Println(resp.StatusCode)
   
   switch resp.StatusCode{

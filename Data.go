@@ -22,7 +22,7 @@ func SelectData(db*sql.DB){
 		if strate==404{
 			continue
 		}
-	  _,err:=db.Exec("INSERT INTO crawler(url,strategy) VALUES(?,?)",cleanurl,strate)
+	  _,err:=db.Exec("INSERT INTO crawler(url,strate) VALUES(?,?)",cleanurl,strate)
        if err!=nil{
 		fmt.Println("插入数据失败")
 	   }
