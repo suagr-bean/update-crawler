@@ -16,7 +16,11 @@ func EtagAndSave(url string)bool{
 		fmt.Println("爬取失败")
 		return false 
 	}
-	os.WriteFile("etag.text",[]byte(data.Etag),0644)//写入
+	if data.Etag!=""{
+     os.WriteFile("etag.text",[]byte(data.Etag),0644)
+	}else{
+		fmt.Println("没更新")
+	}
 	return true
 }
 func Crawler(url string,etag string)(Data,error){
@@ -44,6 +48,7 @@ func Crawler(url string,etag string)(Data,error){
       Url:url,
       Etag: etag,
 	}
+   
 	return data,err
 } 
   }
