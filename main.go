@@ -11,9 +11,10 @@ func main(){
 	for {
 		fmt.Println("开始执行")
     deal:= EtagAndSave(url)
-     if deal{
+     if deal==true{
 		DealCmd(url)
 	 }
+	 
 	 time.Sleep(3*time.Minute)
 	}
 }

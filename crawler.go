@@ -20,6 +20,7 @@ func EtagAndSave(url string)bool{
      os.WriteFile("etag.text",[]byte(data.Etag),0644)
 	}else{
 		fmt.Println("没更新")
+		return false
 	}
 	return true
 }
@@ -27,7 +28,7 @@ func Crawler(url string,etag string)(Data,error){
    client:=&http.Client{}
    data:=Data{}
    req,_:= http.NewRequest("GET",url,nil)
-   req.Header.Set("If-None-Match",`etag`)
+   req.Header.Set("If-None-Match",etag)
    resp,err:=client.Do(req)
   if err!=nil{
 	return data,err
