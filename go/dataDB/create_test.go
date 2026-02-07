@@ -20,10 +20,10 @@ func Test_dbData_Create(t *testing.T) {
 		wantErr bool
 	}{
 	   {name:"text",fields:fields{
-		Name:"example",
-		Url:"http://example.com",
-		Version:"Rss",
-		LastUpdate: "2028-1",
+		Name:"wiwi",
+		Url:"http://wiwi.blog/blog/xml",
+		Version:"Rss2.0",
+		LastUpdate: "",
 	   },wantErr:false,
 },
 	}
