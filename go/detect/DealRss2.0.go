@@ -24,7 +24,7 @@ type Item struct {
 }
 
 func (rss *Rss) AccessInfo(context Context) {
-	 defer context.Body.Close()
+	 defer context.Body.Close()//关闭流
      data,err:=io.ReadAll(context.Body)
 	 if err!=nil{
 		fmt.Println("wrong")

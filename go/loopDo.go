@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"project/dataDB"
 	"project/detect"
-	"fmt"
+	"time"
 )
 
 func listen(){
@@ -11,7 +12,10 @@ func listen(){
     if err!=nil{
       fmt.Println("err")
 	}
+	 for {
       Loop(data) 
+	  time.Sleep(5 *time.Minute)
+	 }
 }
 func Loop(data []dataDB.DBData){
     for _,v:=range data{
@@ -28,7 +32,14 @@ func Loop(data []dataDB.DBData){
         check:=rss.UpdateTitle()
 		if check==v.LastUpdate{
 			fmt.Println("没更新")
+
 		}else{
+		   new:=check
+		   d:=&dataDB.DBData{
+			Name:v.Name,
+			LastUpdate:new,
+		   }
+		   d.UpdateLast()//更新数据
 			fmt.Println("已更新")
 		}
 	  }
