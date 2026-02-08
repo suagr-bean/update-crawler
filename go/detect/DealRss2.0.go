@@ -18,6 +18,7 @@ type Rss struct {
 type Item struct {
 	Title     string `xml:"title"`
 	Link      string `xml:"link"`
+	Content   string `xml:"description"`
 	Enclosure struct {
 		URL string `xml:"url,attr"`
 	} `xml:"enclosure"`
@@ -37,4 +38,13 @@ func (rss *Rss) AccessInfo(context Context) {
 }
 func (rss *Rss) UpdateTitle() string {
 	return rss.Items[0].Title
+}
+func (rss*Rss)Content() string{
+	return rss.Items[0].Content
+}
+func (rss*Rss)Link()string{
+	return rss.Items[0].Link
+}
+func (rss*Rss)InfoUrl()string{
+	return rss.Items[0].Enclosure.URL
 }
