@@ -6,6 +6,10 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_20
+    pkgs.go_1_22
+    pkgs.gopls
+    pkgs.gotools
+    pkgs.delve
   ];
   # Sets environment variables in the workspace
   env = {};
