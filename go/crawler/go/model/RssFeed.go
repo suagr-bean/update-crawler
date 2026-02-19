@@ -14,7 +14,8 @@ type Article struct{
 	Title string 
 	AutoLink string
 	Link string 
-
+	PublishTime int64
+    Guid string
 }
 type Rss struct {
 	Version string
@@ -22,8 +23,10 @@ type Rss struct {
 	Items   []Item `xml:"channel>item"`
 }
 type Item struct {
+	PublishTime string `xml:"pubDate"`
 	Title     string `xml:"title"`
 	Link      string `xml:"link"`
+	Guid     string `xml:"guid"`
 	Content   string `xml:"description"`
 	Enclosure struct {
 		URL string `xml:"url,attr"`
@@ -35,5 +38,6 @@ func (rss*Rss) GetName()string{
 func (rss*Rss)Last()string{
 	return rss.Items[0].Title
 }
+
 
 

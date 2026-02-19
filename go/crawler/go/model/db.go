@@ -1,25 +1,25 @@
 package model
 
-import (
- "gorm.io/gorm"
-)
-//目录表
-type Info  struct {
+import "gorm.io/gorm"
+var DB*gorm.DB
+//主表
+type Info struct {
 	gorm.Model
-	Name       string   `gorm:"type:string;unique;notnull"`
-	Url        string   `gorm:"type:text;unique;notnull"`
-	Version    string   `gorm:"type:string"`
-	LastUpdate string   `gorm:"type:text"`
-	Details    []Detail `gorm:"foreignKey:IndexId"`
+	Url      string `gorm:"unique;type:text"`
+	Name     string
+	Version  string 
+	Details  []Detail `gorm:"foreignKey:IndexId"`
+	AutoLink string
+	LastUpdate string 
 }
-
-var DB *gorm.DB
 
 //副表
 type Detail struct {
 	gorm.Model
-	IndexId uint `gorm:"index"`
-	Title    string
-	Link     string `gorm:"type:text"`
-	AutoLink     string
+	IndexId   uint `gorm:"index"`
+	Guid     string `gorm:"uninqueIndex"`
+	Title     string
+	Link      string `gorm:"type:text"`
+	AutoLink  string
+	PublishedTime int64
 }

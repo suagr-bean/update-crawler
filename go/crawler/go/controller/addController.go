@@ -6,6 +6,7 @@ import (
 	"project/dao"
 	"project/model"
 	"project/service"
+	"fmt"
 )
 
 func AddController(resp http.ResponseWriter, req *http.Request) {
@@ -13,6 +14,7 @@ func AddController(resp http.ResponseWriter, req *http.Request) {
 	var result model.Result
 	resp.Header().Set("Content-Type","application/json")
 	err := json.NewDecoder(req.Body).Decode(&data)
+	fmt.Println(data.Url)
 	if err != nil {
 	resp.WriteHeader(http.StatusBadRequest)
 	  result=model.Result{
@@ -22,6 +24,7 @@ func AddController(resp http.ResponseWriter, req *http.Request) {
 	  json.NewEncoder(resp).Encode(&result)
 	  return 
 	}
+	//先查数据库有无数据
 	deal, err := dao.QueryData(data.Url)
 	if err != nil {
 		result=model.Result{

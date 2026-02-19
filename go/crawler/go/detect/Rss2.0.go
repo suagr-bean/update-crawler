@@ -22,11 +22,13 @@ func(r*RssProcess)Deal(data[]byte)model.DealData{
 	}
 	all:=[]model.Article{}
 	for _,v:=range r.Data.Items{
+	  time:= DealTime(v.PublishTime)
 	 article:= model.Article{
-
+        PublishTime:time,
         Title:v.Title,
 		AutoLink:v.Enclosure.URL,
 		Link:v.Link,
+		Guid:v.Guid,
 	  }
       all=append(all,article)
 	}

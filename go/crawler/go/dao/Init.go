@@ -6,6 +6,7 @@ import (
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
+ 
 //数据库初始化
 func Init (path string)error{
 	var err error 

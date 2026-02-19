@@ -4,7 +4,7 @@
     <li @click="detail(data)"  v-for="(data,index) in list" :key="index" class="card">   
       <p class="name">{{ data.name }}</p></br>
       <p class="last"> {{ data.last }}</p>
-      <p>url:{{ data.url }}</p>
+      
     </li>
   </div>
 </template>

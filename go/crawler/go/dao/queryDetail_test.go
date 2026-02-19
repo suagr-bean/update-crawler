@@ -2,18 +2,22 @@ package dao
 
 import (
 	"fmt"
+	"project/model"
 
 	"testing"
 )
 func TestQuery(t*testing.T){
-	path:="../data/test.db"
+	path:="../data/rss.db"
 	err:=Init(path)
 	if err!=nil{
 		fmt.Println(err)
 		return 
 	}
-	url:="https://wiwi.blog/blog/rss.xml"
-	result,err:=QueryDetail(url)
+	show:=model.Show{}
+	show.Url="https://wiwi.blog/blog/rss.xml"
+	show.Size=2
+	
+	result,err:=QueryDetail(show)
 	if err!=nil{
 		fmt.Println(err)
 		return 

@@ -21,6 +21,7 @@ const props = defineProps({
   align-items: center; /* Center them horizontally */
   background-color: #f0f0f0;
   padding: 10px 5px; /* Add some padding */
+  border-top: 1px 
 }
 
 .title {
