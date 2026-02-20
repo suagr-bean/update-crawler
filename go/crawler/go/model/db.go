@@ -9,7 +9,6 @@ type Info struct {
 	Name     string
 	Version  string 
 	Details  []Detail `gorm:"foreignKey:IndexId"`
-	AutoLink string
 	LastUpdate string 
 }
 

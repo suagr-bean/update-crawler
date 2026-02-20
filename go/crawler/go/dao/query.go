@@ -52,3 +52,4 @@ func QueryDetail(show model.Show)([]model.Detail,error){
    }
     return detail, nil
 }
+

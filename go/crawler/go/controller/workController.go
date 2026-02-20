@@ -1,13 +1,24 @@
 package controller
 
 import (
-	
 	"project/dao"
 	"project/model"
 	"project/service"
 	"sync"
+	"time"
 )
-
+//开始
+func WorkStart (times time.Duration){
+	ticker:=time.NewTicker(times)
+	defer ticker.Stop()
+	go WorkController()
+	for{
+		select{
+		case <-ticker.C:
+           WorkController ()
+		}
+	}
+}
 //日常的轮询
 func WorkController(){
   //先分页查询数据库的URL
