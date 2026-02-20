@@ -6,12 +6,11 @@ import (
 	"project/model"
 	"project/service"
 	"strconv"
-	
 )
 
 func ShowController(resp http.ResponseWriter, req *http.Request) {
-    
-	query:=req.URL.Query()
+
+	query := req.URL.Query()
 	startstr := query.Get("start")
 	sizestr := query.Get("size")
 	start, _ := strconv.Atoi(startstr)

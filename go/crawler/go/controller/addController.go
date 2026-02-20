@@ -2,58 +2,57 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"project/dao"
 	"project/model"
 	"project/service"
-	"fmt"
 )
 
 func AddController(resp http.ResponseWriter, req *http.Request) {
 	var data model.Data
 	var result model.Result
-	resp.Header().Set("Content-Type","application/json")
+	resp.Header().Set("Content-Type", "application/json")
 	err := json.NewDecoder(req.Body).Decode(&data)
 	fmt.Println(data.Url)
 	if err != nil {
-	resp.WriteHeader(http.StatusBadRequest)
-	  result=model.Result{
-		Code:400,
-		Message:"参数不对",
-	  }
-	  json.NewEncoder(resp).Encode(&result)
-	  return 
+		resp.WriteHeader(http.StatusBadRequest)
+		result = model.Result{
+			Code:    400,
+			Message: "参数不对",
+		}
+		json.NewEncoder(resp).Encode(&result)
+		return
 	}
 	//先查数据库有无数据
 	deal, err := dao.QueryData(data.Url)
 	if err != nil {
-		result=model.Result{
-			Code:500,
-			Message:"服务器内部错误",
+		result = model.Result{
+			Code:    500,
+			Message: "服务器内部错误",
 		}
 		json.NewEncoder(resp).Encode(&result)
 		return
 	}
 	if deal == true {
-      result= model.Result{
-		Code:409,
-		Message:"数据库存在URL",
-	   }
+		result = model.Result{
+			Code:    409,
+			Message: "数据库存在URL",
+		}
 	} else {
 		s := service.AddService(data.Url)
 		if s == true {
-          result=model.Result{
-			Code:200,
-			Message:"保存成功",
-		  }
-		  }else {
-			result=model.Result{
-				Code:500,
-				Message:"保存失败服务器内部错误",
+			result = model.Result{
+				Code:    200,
+				Message: "保存成功",
 			}
-		  }
+		} else {
+			result = model.Result{
+				Code:    500,
+				Message: "保存失败服务器内部错误",
+			}
 		}
+	}
 
-    
 	json.NewEncoder(resp).Encode(&result)
 }

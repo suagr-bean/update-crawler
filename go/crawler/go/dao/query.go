@@ -52,4 +52,24 @@ func QueryDetail(show model.Show)([]model.Detail,error){
    }
     return detail, nil
 }
-
+//查询副表文章模糊查询
+func QuerySeach(show model.Show)([]model.Detail,error){
+	var info model.Info
+   var detail [] model.Detail
+	if show.Size<=0{
+		show.Size=15
+	}
+	if show.Start<=0{
+		show.Start=1
+	}
+	offset:= (show.Start-1)*show.Size
+	err:=model.DB.Where("url=?",show.Url).First(&info).Error
+	if err!=nil{
+		return detail,err 
+	}
+	err=model.DB.Where("index_id=?AND title Like?",info.ID,"%"+show.SeachTitle+"%").Order("published_time Desc").Limit(show.Size).Offset(offset).Find(&detail).Error
+	if err!=nil{
+		return detail,err
+	}
+    return detail,nil
+}

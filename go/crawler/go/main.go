@@ -10,7 +10,7 @@ import (
 func main() {
 	fmt.Println("启动")
 	//打开数据库
-	path := "data/rss.db"
+	path := "data/test.db"
 	dao.Init(path)
 //爬虫工作
 	go controller.WorkStart(24*time.Hour)

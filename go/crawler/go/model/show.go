@@ -3,6 +3,8 @@ type Show struct{
 	Size int 
 	Url string 
 	Start int
+	SeachTitle string 
+	
 }
 type ShowResult struct {
    Name string `json:"name"`
