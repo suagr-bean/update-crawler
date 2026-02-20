@@ -1,0 +1,15 @@
+# Diff Details
+
+Date : 2026-02-20 06:50:40
+
+Directory /home/user/rssread/go/crawler/go
+
+Total : 0 files,  0 codes, 0 comments, 0 blanks, all 0 lines
+
+[Summary](results.md) / [Details](details.md) / [Diff Summary](diff.md) / Diff Details
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+
+[Summary](results.md) / [Details](details.md) / [Diff Summary](diff.md) / Diff Details

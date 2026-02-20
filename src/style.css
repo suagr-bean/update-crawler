@@ -15,16 +15,13 @@ html,
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow:hidden;
 }
 
 .top {
   flex-shrink: 0;
 }
 
-.show {
-  flex-grow: 1;
-  overflow-y: auto;
-}
 
 .bar {
   flex-shrink: 0;

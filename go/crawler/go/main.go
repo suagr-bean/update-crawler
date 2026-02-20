@@ -12,7 +12,7 @@ func main() {
 	//打开数据库
 	path := "data/test.db"
 	dao.Init(path)
-//爬虫工作
+//爬虫工作 设置工作时间
 	go controller.WorkStart(24*time.Hour)
 	//路由
 	controller.Route()

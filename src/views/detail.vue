@@ -99,7 +99,7 @@ li{
 .card{
    padding:10px;
    height:auto;
-   width:100%;
+   width:95%;
   border:2px solid black;
   border-radius: 15px;
 }

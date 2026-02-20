@@ -1,11 +1,12 @@
 <template>
   
   <div class="item">
-    <li @click="detail(data)"  v-for="(data,index) in list" :key="index" class="card">   
-      <p class="name">{{ data.name }}</p></br>
+    
+    <li @click="detail(data)"  v-for="(data,index) in list" :key="index"class="card">   
+      <p class="name">{{ data.name }}</p>
       <p class="last"> {{ data.last }}</p>
-      
     </li>
+   <div class="space"><button>加载更多</button></div>
   </div>
 </template>
 <script setup>
@@ -39,6 +40,8 @@ const detail=(data)=>{
   flex-direction:column;
   gap:25px;
   width:95%;
+  height:auto;
+  overflow-y:auto;
 }
 .name{
   text-align:center;
@@ -47,11 +50,15 @@ const detail=(data)=>{
 }
 .last{
   font-size:medium;
+  /* Prevent text from overflowing */
+  white-space: normal;
+  word-wrap: break-word;
 }
 .card{
+  /* Make card a flex container */
+ /* Stack items vertically */
   word-break:break-all;
-  width:100%;
-  height:auto;
+  width:95%;
   border:2px solid black;
   padding:6px;
   border-radius:15px;
@@ -60,5 +67,8 @@ li{
   list-style:none;
   padding:0;
   margin:0;
+}
+.space{
+height:100px;
 }
 </style>
