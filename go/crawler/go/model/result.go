@@ -2,6 +2,7 @@ package model
 type Result struct {
 	Code int  `json:"code"`
 	Message string `json:"message"`
+	Info []InfoResult `json:"info"`
 	Data  [] DetailData `json:"data"`
 }
 type DetailData struct{

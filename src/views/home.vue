@@ -16,7 +16,7 @@ const list =ref([])
 const GetShow=async()=>{
 try{
   const response=await axios.get('/api/home')
-  list.value=response.data
+  list.value=response.data.info
    console.log(response.data)
 }catch(error){
   console.log("error",error)

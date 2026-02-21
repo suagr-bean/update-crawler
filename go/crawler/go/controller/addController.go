@@ -2,19 +2,17 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"project/dao"
 	"project/model"
 	"project/service"
 )
-
+//添加URL 到数据库
 func AddController(resp http.ResponseWriter, req *http.Request) {
 	var data model.Data
 	var result model.Result
 	resp.Header().Set("Content-Type", "application/json")
 	err := json.NewDecoder(req.Body).Decode(&data)
-	fmt.Println(data.Url)
 	if err != nil {
 		resp.WriteHeader(http.StatusBadRequest)
 		result = model.Result{

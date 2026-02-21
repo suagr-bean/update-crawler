@@ -5,12 +5,12 @@ import "project/model"
 func QueryUrl(show model.Show)([]model.Info,error){
 	var info [] model.Info
 	if show.Size <= 0 {
-		show.Size = 15
+		show.Size = 30
 	}
-	if show.Start < 0 {
-		show.Start = 0
+	if show.Start <= 0 {
+		show.Start = 1
 	}
-	offset := show.Start * show.Size
+	offset := (show.Start-1) * show.Size
 	err := model.DB.Limit(show.Size).Offset(offset).Find(&info).Error
     if err != nil {
 		return info, err

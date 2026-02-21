@@ -1,23 +1,24 @@
 package service
 
 import (
+	"fmt"
 	"project/dao"
 	"project/model"
 
-	"log"
 )
 
-func ShowService(show model.Show) []model.ShowResult {
+//处理查询主表
+func ShowService(show model.Show) ([]model.InfoResult,error){
 	result, err := dao.QueryUrl(show)
 	if err != nil {
-		log.Printf("Error querying URL: %v", err)
-		return []model.ShowResult{} // Return empty slice on error
+		
+		return []model.InfoResult{},fmt.Errorf("dao.QueryURl wrong:%w info:showstart:%wshowSize%w",err,show.Size,show.Start)
 	}
 
-	var r []model.ShowResult
+	var r []model.InfoResult
 
 	for _, v := range result {
-		showresult := model.ShowResult{
+		showresult := model.InfoResult{
 			Name:       v.Name,
 			LastUpdate: v.LastUpdate,
 			Url:        v.Url,
@@ -25,5 +26,5 @@ func ShowService(show model.Show) []model.ShowResult {
 		}
 		r = append(r, showresult)
 	}
-	return r
+	return r,nil
 }

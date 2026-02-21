@@ -6,9 +6,8 @@ type Show struct{
 	SeachTitle string 
 	
 }
-type ShowResult struct {
+type InfoResult struct {
    Name string `json:"name"`
    Url string `json:"url"`
    LastUpdate string `json:"last"`
-
 }
