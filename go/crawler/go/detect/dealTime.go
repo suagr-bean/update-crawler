@@ -3,6 +3,7 @@ package detect
 import (
 	"strings"
 	"time"
+	"fmt"
 )
 
 //处理时间
@@ -17,6 +18,8 @@ func DealTime(timeStr string) int64{
 		"2006-01-02",
 		time.RubyDate,
 		time.ANSIC,
+		"Mon, 2 Jan 2006 15:04:05 -0700",
+		"Mon, 2 Jan 2006 15:04:05 MST",
 	}
     now:=time.Now().Unix()
 	for _,v:=range layouts{
@@ -29,5 +32,8 @@ func DealTime(timeStr string) int64{
 		return t.Unix()
 	 }
 	}
-	return time.Now().Unix()
+	
+	fmt.Printf("错误时间%",cleanTime)
+	return 0
+	//return time.Now().Unix()
 }

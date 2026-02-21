@@ -1,94 +1,107 @@
 <template>
-  <div class="play-button-container">
+  <timing @stopTime="dealStop" class="show" v-if="showTimer"></timing>
+  <div v-if="info.auto_link" class="play-button-container">
     <p class="title">{{ info.title }}</p>
-    <audio autoplay @timeupdate="updateTime" @loadedmetadata="setDuration" @pause="isPlaying=true" @play="isPlaying=false"ref="audioRef"  :src="info.auto_link"  style="width: 100%;"></audio>
-    <input type="range" :value="now" :max="end">
-    <span>{{ now }}/{{end }}</span>
+    <audio
+      autoplay
+      ref="audioRef"
+      :src="info.auto_link"
+      style="width: 100%;"
+      @timeupdate="updateTime"
+      @loadedmetadata="setDuration"
+      @play="isPlaying = true"
+      @pause="isPlaying = false"
+    ></audio>
+    <input type="range" min="0" :max="end" v-model="now" step="0.01" @input="onSeek"></input>
     <div class="control">
-    <button class="play"@click="togglePlay"> {{ isPlaying?'暂停' :'▶'}}</button>
-    <button class="stop"@click="stop">定时</button>
-   </div>
+    <span>{{ FormatTime(now) }} / {{ FormatTime(end ) }}</span>
+      <button class="play" @click="togglePlay">{{ isPlaying ? '暂停' : '▶' }}</button>
+      <button class="stop" @click="stop" >定时</button>
+      
+    </div>
   </div>
 </template>
 
 <script setup>
-import {ref}from'vue'
+import { ref } from 'vue'
+import { FormatTime } from '@/utils/formatTime'
+import timing from './timing.vue'
 const props = defineProps({
   info: {
     type: Object,
     default: () => ({})
   }
 })
-const isPlaying=ref(false)
-const audioRef=ref(null)
-const togglePlay=()=>{
-  if (!audioRef.value){
-    return;
+
+const audioRef = ref(null)
+const isPlaying = ref(false)
+const now = ref(0)
+const end = ref(0)
+const remaining = ref(0)
+//控制定时
+const showTimer=ref(false)
+//定时操作
+const sleepTime=ref(0)
+const dealStop=(val)=>{
+    showTimer.value=false
+    sleepTime.value=val*60*1000
+    setTimeout(()=>{
+      audioRef.value.pause()
+    },sleepTime.value)
+}
+const togglePlay = () => {
+  if (!audioRef.value) return;
+  if (isPlaying.value) {
+    audioRef.value.pause()
+  } else {
+    audioRef.value.play()
   }
-  if (isPlaying.value){
-    audioRef.value.pause();
-  }else{
-    audioRef.value.play();
-  }
-  isPlaying.value=!isPlaying.value;
-};
-//总时长
-const end=ref(0)
-//当前时间
-const now=ref(0)
-//更新当前时间
-const updateTime=(event)=>{
-  now.value=event.target.currentTime
-};
-//总时长
-const setDuration=(event)=>{
-  end.value=event.target.duration;
-};
-//定时
-let timer=null
-const remaining=ref(0)
-const stop=()=>{
-   remaining.value=10*60
-   timer=setInterval(()=>{
-    remaining.value--;
-    if (remaining.value<=0){
-     audioRef.value.pause();
-     clearInterval(timer);
-    }
-   },1000)
+}
+
+const updateTime = (e) => {
+  now.value = e.target.currentTime
+}
+
+const setDuration = (e) => {
+  end.value = e.target.duration
+}
+const onSeek =() =>{
+   if (audioRef.value){
+    audioRef.value.currentTime=now.value
+   }
+}
+
+const stop= () => {
+  showTimer.value=!showTimer.value
 }
 </script>
 
 <style scoped>
 .play-button-container {
-  display: flex;
-  flex-direction: column; /* Arrange title and player vertically */
-  align-items: center; /* Center them horizontally */
-  background-color: #f0f0f0;
-  padding: 10px 5px; /* Add some padding */
-  border-top: 1px 
-}
-.control{
-  display:flex;
-  flex-direction:row;
-  gap:50px;
-  margin-left:0;
-}
-.play{
-  width:60px;
-  height:60px;
-}
-.stop{
-  width:60px;
+  height: 130px;
+  width: 100%;
+  background-color:white;
 }
 
 .title {
-  font-weight: 500;
-  margin-bottom: 8px; /* Add space between title and player */
   text-align: center;
-  width: 95%;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Use '...' for very long titles */
+  text-overflow: ellipsis;
+}
+.control {
+  display: flex;
+  justify-content: space-around;
+  height: 50px;
+  align-items: center;
+}
+input{
+  margin-left:20px;
+  width:90%;
+  height:20%;
+}
+
+.show {
+  height:150px;
 }
 </style>

@@ -11,9 +11,8 @@
   justify-content: space-around; /* 让按钮左右撑开 */
   align-items: center; /* 核心：让按钮在 45px 高度内垂直居中 */
   width: 100%;
-  height: 50px; /* 稍微加高一点点，避开手机边缘 */
-  background-color: #f0f0f0; /* 给个背景色，防止透出底层内容 */
-  border-top: 1px solid black;
+  height: 40px; /* 稍微加高一点点，避开手机边缘 */
+  background-color:white; /* 给个背景色，防止透出底层内容 */
 }
 
 button {

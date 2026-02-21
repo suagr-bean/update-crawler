@@ -29,6 +29,7 @@ const Send=(item)=>{
      
     </main>
     <footer class="fixed-footer">
+  
       <playbutton :info="receive"/>
       <Bottom
         @show-home="currentView = 'Home'"

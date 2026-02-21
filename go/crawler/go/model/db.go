@@ -20,5 +20,5 @@ type Detail struct {
 	Title     string
 	Link      string `gorm:"type:text"`
 	AutoLink  string
-	PublishedTime int64
+	PublishedTime int64 `gorm:"index"`
 }

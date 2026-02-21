@@ -7,14 +7,14 @@ import (
 	"testing"
 )
 func TestQuery(t*testing.T){
-	path:="../data/rss.db"
+	path:="../data/test.db"
 	err:=Init(path)
 	if err!=nil{
 		fmt.Println(err)
 		return 
 	}
 	show:=model.Show{}
-	show.Url="https://wiwi.blog/blog/rss.xml"
+	show.Url="https://feeds.simplecast.com/dHoohVNH"
 	show.Size=2
 	
 	result,err:=QueryDetail(show)
