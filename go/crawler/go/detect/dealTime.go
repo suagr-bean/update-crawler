@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-//处理时间
+//处理rss时间
 func DealTime(timeStr string) int64{
 	//清洗掉空格什么的
 	cleanTime:=strings.TrimSpace(timeStr)

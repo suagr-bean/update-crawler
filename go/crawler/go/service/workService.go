@@ -6,7 +6,7 @@ import (
 	"project/model"
     "fmt"
 )
-//检查更新
+//检查更新 
 func WorkService(url string){
 	dealData,err:=detect.Detect(url)
     if err!=nil{
@@ -47,6 +47,7 @@ func WorkService(url string){
 		return 
 	}
       fmt.Println("更新")
-	 }
+	 }else{
 	 fmt.Println("没更新")
+	 }
 }

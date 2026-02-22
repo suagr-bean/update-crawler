@@ -11,7 +11,7 @@ func QueryUrl(show model.Show)([]model.Info,error){
 		show.Start = 1
 	}
 	offset := (show.Start-1) * show.Size
-	err := model.DB.Limit(show.Size).Offset(offset).Find(&info).Error
+	err := model.DB.Limit(show.Size).Order("id asc").Offset(offset).Find(&info).Error
     if err != nil {
 		return info, err
 	}
