@@ -10,10 +10,14 @@
     pkgs.gopls
     pkgs.gotools
     pkgs.delve
+    pkgs.redis
   ];
+  services.redis.enable=true;
+ 
   # Sets environment variables in the workspace
   env = {};
   idx = {
+
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       "vue.volar"

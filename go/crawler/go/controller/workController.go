@@ -43,11 +43,11 @@ func WorkController() {
 			if err != nil {
 				return
 			}
-			if len(query) == 0 {
+			if len(query.Info) == 0 {
 				return
 			}
 			
-			for _, v := range query {
+			for _, v := range query.Info {
                  
 				need <- v.Url
 			}

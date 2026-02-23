@@ -43,11 +43,10 @@ const Send=(item)=>{
 .show {
   overflow-y: auto;
   flex: 1;
-  padding: 10px;
+  padding: 8px;
   /* Increased padding to accommodate taller footer */
   padding-bottom: 150px; 
 }
-
 .fixed-footer {
   position: fixed;
   bottom: 0;

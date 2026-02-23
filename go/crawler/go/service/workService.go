@@ -19,7 +19,7 @@ func WorkService(url string){
 	}
 	
 	query,_:=dao.QueryDetail(show)
-    check:=query[0].Guid
+    check:=query.Details[0].Guid
      var  detail []model.Detail
     for _,v:=range dealData.Articles{
         if v.Guid==check{

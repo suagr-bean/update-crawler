@@ -2,11 +2,13 @@ package dao
 
 import (
 	"project/model"
+	"project/pkg"
 	"testing"
 )
 func TestQuerySeach(t*testing.T){
 	path:="../data/test.db"
-	err:=Init(path)
+	db,err:=pkg.DBInit(path)
+	model.DB=db
 	if err!=nil{
 		t.Logf("错误%v",err)
 	}

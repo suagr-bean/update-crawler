@@ -1,6 +1,7 @@
 package model
 
 import "gorm.io/gorm"
+import "time"
 var DB*gorm.DB
 //主表
 type Info struct {
@@ -9,7 +10,11 @@ type Info struct {
 	Name     string
 	Version  string 
 	Details  []Detail `gorm:"foreignKey:IndexId"`
-	LastUpdate string 
+	LastUpdate string
+	ContentType int //0 文章 1播客  
+	DoMinute  int  
+	CrawlerTime  time.Time 
+	NextCrawlerTime time.Time  `gorm:"index"`
 }
 
 //副表

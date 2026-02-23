@@ -1,13 +1,16 @@
 package service
 
 import (
-	"project/dao"
+	
+	"project/model"
+	"project/pkg"
 	"testing"
 )
 
 func TestWork(t *testing.T){
 	path:="../data/rss.db"
-    dao.Init(path)
+    db,_:=pkg.DBInit(path)
+	model.DB=db
 	url:="https://wiwi.blog/blog/rss.xml"
 	WorkService(url)
 }

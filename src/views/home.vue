@@ -1,8 +1,13 @@
 <template>
   
   <div class="item">
+    <p v-if="list.length>0">{{ list[0].count}}条</p>
     
-    <li @click="detail(data)"  v-for="(data,index) in list" :key="index"class="card">   
+    <li @click="detail(data)"  v-for="(data,index) in list" :key="index"class="card">  
+     <div class="context_type">
+     <span v-if="data.context_type=='podcast'">音频</span> 
+     <span v-if="data.context_type=='article'">文章</span>
+     </div>
       <p class="name">{{ data.name }}</p>
       <p class="last"> {{ data.last }}</p>
     </li>
@@ -70,5 +75,9 @@ li{
 }
 .space{
 height:100px;
+}
+.context_type{
+  background-color: orange;
+  text-align:center;
 }
 </style>

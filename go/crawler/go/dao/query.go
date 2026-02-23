@@ -2,7 +2,7 @@ package dao
 
 import "project/model"
 //查询主数据库
-func QueryUrl(show model.Show)([]model.Info,error){
+func QueryUrl(show model.Show)(model.QueryResult,error){
 	var info [] model.Info
 	if show.Size <= 0 {
 		show.Size = 30
@@ -13,9 +13,13 @@ func QueryUrl(show model.Show)([]model.Info,error){
 	offset := (show.Start-1) * show.Size
 	err := model.DB.Limit(show.Size).Order("id asc").Offset(offset).Find(&info).Error
     if err != nil {
-		return info, err
+		return model.QueryResult{}, err
 	}
-	return info, nil
+    count:=QueryCount(info,0)
+	return model.QueryResult{
+		Info:info,
+		Count:count,
+	},nil
 }
 //查询主数据库有无数据
 func QueryData(url string)(bool,error){
@@ -31,12 +35,12 @@ func QueryData(url string)(bool,error){
 }
 
 //查询副表
-func QueryDetail(show model.Show)([]model.Detail,error){
+func QueryDetail(show model.Show)(model.QueryResult,error){
 	var  info model.Info
 	var  detail [] model.Detail
     err := model.DB.Table("Infos").Where("url=?",show.Url).First(&info).Error
 	if err != nil {
-		return detail, err
+		return model.QueryResult{}, err
 	}
     if show.Size<=0{
 		show.Size=50
@@ -48,9 +52,14 @@ func QueryDetail(show model.Show)([]model.Detail,error){
 	id := info.ID
    result := model.DB.Limit(show.Size).Offset(offset).Where("index_id=?",id).Order("published_time Desc").Find(&detail)
    if result.Error != nil {
-	   return detail, result.Error
+	   return model.QueryResult{}, result.Error
    }
-    return detail, nil
+    count := QueryCount(detail,int(info.ID))
+	return model.QueryResult{
+		Details:detail,
+		Count:count,
+	},nil
+   
 }
 //查询副表文章模糊查询
 func QuerySeach(show model.Show)([]model.Detail,error){
@@ -73,3 +82,16 @@ func QuerySeach(show model.Show)([]model.Detail,error){
 	}
     return detail,nil
 }
+//查询count
+func QueryCount (table interface{}, index int)int64{
+	var count int64
+	//副表
+   if index>0{
+     model.DB.Model(table).Where("index_id=?",index).Count(&count)
+	 return count
+   }
+    //查主表 count
+    model.DB.Model(table).Count(&count)
+	return count
+}
+

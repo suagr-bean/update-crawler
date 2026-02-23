@@ -31,10 +31,17 @@ func ShowDetail(resp http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		return
 	}
-	r = model.Result{
+	if len(result)==0{
+      r.Code=200
+	  r.Data=result
+	  r.HaseMore=false 
+	}else {
+		r = model.Result{
 		Code:    200,
 		Message: "查询成功",
 		Data:    result,
+		HaseMore: true,
 	}
+}
 	json.NewEncoder(resp).Encode(&r)
 }

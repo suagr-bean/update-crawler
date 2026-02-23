@@ -16,13 +16,20 @@ func ShowService(show model.Show) ([]model.InfoResult,error){
 	}
 
 	var r []model.InfoResult
-
-	for _, v := range result {
+    
+	for _, v := range result.Info{
+      var contextType string 
+	  if v.ContentType==0{
+		contextType="article"
+	  }else if v.ContentType==1{
+        contextType="podcast"
+	  }
 		showresult := model.InfoResult{
 			Name:       v.Name,
 			LastUpdate: v.LastUpdate,
 			Url:        v.Url,
-			
+		   Count: result.Count,
+		   ContextType:contextType,
 		}
 		r = append(r, showresult)
 	}

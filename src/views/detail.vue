@@ -1,5 +1,6 @@
 <template>
   <div class="all">
+    <p v-if="list.length>0">{{list[0].count}}条</p>
     <li class="card" v-for="(item,index) in list":key="index">
         <p class="title">{{ item.title }}</p>
         <p class="time">{{ formatTime(item.published_time) }}</p>
@@ -9,7 +10,8 @@
         </div>
     </li>
     <div class="space">
-      <button>加载更多</button>
+      <span @click="">加载中</span>
+      <span>到底</span>
     </div>
   </div>
 </template>
@@ -66,6 +68,8 @@ const formatTime = (unixTimestamp) => {
 }
 .space{
   height:100px;
+  display:flex;
+  flex-direction:column;
 }
 a{
    width:100px;

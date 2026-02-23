@@ -1,7 +1,9 @@
 package service
 
 import (
-	"project/dao"
+	
+	"project/model"
+	"project/pkg"
 	"testing"
 )
 
@@ -20,7 +22,8 @@ func TestAddService(t *testing.T) {
 		},
 	}
 	path := "../data/test.db"
-	dao.Init(path)
+	db,_:=pkg.DBInit(path)
+	model.DB=db
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			AddService(tt.args.url)

@@ -1,14 +1,16 @@
 package controller
 
 import (
-
-	"project/dao"
+	
+	"project/model"
+	"project/pkg"
 	"testing"
 )
 
 func TestWork(t *testing.T) {
 	path := "../data/test.db"
-	dao.Init(path)
+	db,_:=pkg.DBInit(path)
+ model.DB=db
 	WorkController()
 
 }
