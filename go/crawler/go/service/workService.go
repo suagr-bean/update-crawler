@@ -7,10 +7,10 @@ import (
     "fmt"
 )
 //检查更新 
-func WorkService(url string){
+func WorkService(url string)(bool,error){
 	dealData,err:=detect.Detect(url)
     if err!=nil{
-		return 
+		return   false,err
 	}
 	show:=model.Show{
 		Url:url,
@@ -44,10 +44,13 @@ func WorkService(url string){
 	 }
 	err:= dao.UpdateInfo(info)
 	if err!=nil{
-		return 
-	}
+		return false,err 
+	}   
+	    return true,nil
       fmt.Println("更新")
 	 }else{
+		return false,nil
 	 fmt.Println("没更新")
 	 }
-}
+      return true,nil
+} 

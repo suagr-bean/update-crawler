@@ -1,6 +1,7 @@
 package service
 
 import (
+	"project/Utils"
 	"project/dao"
 	"project/detect"
 	"project/model"
@@ -31,7 +32,7 @@ func AddService(url string) bool {
 	 //content 1代表播客 0代表文章
 	 var content int 
 	 var times int
-	 var duration time.Duration
+	 
 	 //判断有无音频 
      if result.Articles[0].AutoLink!=""{
         content=1
@@ -40,9 +41,9 @@ func AddService(url string) bool {
 	 }else{
 		content=0
 		times=60
-	 }
-     duration=time.Duration(times)*time.Minute
-	 next:=time.Now().Add(duration)
+	 } 
+
+	  next:=Utils.DealTime(times)
 	info := model.Info{
 		Name:       result.Name,
 		Version:    result.Version,
