@@ -8,14 +8,14 @@ import (
 	"time"
 )
 
-//添加URL
+// 添加URL
 func AddService(url string) bool {
-   //爬取
+	//爬取
 	result, err := detect.Detect(url)
 	if err != nil {
 		return false
 	}
-    
+
 	//组装文章
 	var d []model.Detail
 	for _, v := range result.Articles {
@@ -24,35 +24,35 @@ func AddService(url string) bool {
 			Link:          v.Link,
 			AutoLink:      v.AutoLink,
 			PublishedTime: v.PublishTime,
-			Guid :v.Guid,
+			Guid:          v.Guid,
 		}
-        
+
 		d = append(d, detail)
 	}
-	 //content 1代表播客 0代表文章
-	 var content int 
-	 var times int
-	 
-	 //判断有无音频 
-     if result.Articles[0].AutoLink!=""{
-        content=1
-		times=1440
-       
-	 }else{
-		content=0
-		times=60
-	 } 
+	//content 1代表播客 0代表文章
+	var content int
+	var times int
 
-	  next:=Utils.DealTime(times)
+	//判断有无音频
+	if result.Articles[0].AutoLink != "" {
+		content = 1
+		times = 1440
+
+	} else {
+		content = 0
+		times = 60
+	}
+
+	next := Utils.DealTime(times)
 	info := model.Info{
-		Name:       result.Name,
-		Version:    result.Version,
-		LastUpdate: result.LastUpdate,
-		Url:        url,
-		Details:    d,
-		ContentType :content,
-		DoMinute:  times,
-		CrawlerTime: time.Now(),
+		Name:            result.Name,
+		Version:         result.Version,
+		LastUpdate:      result.LastUpdate,
+		Url:             url,
+		Details:         d,
+		ContentType:     content,
+		DoMinute:        times,
+		CrawlerTime:     time.Now(),
 		NextCrawlerTime: next,
 	}
 

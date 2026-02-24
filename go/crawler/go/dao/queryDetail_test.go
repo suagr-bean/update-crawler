@@ -7,25 +7,26 @@ import (
 
 	"testing"
 )
-func TestQuery(t*testing.T){
-	path:="../data/test.db"
-	db,err:=pkg.DBInit(path)
-	model.DB=db
-	if err!=nil{
+
+func TestQuery(t *testing.T) {
+	path := "../data/test.db"
+	db, err := pkg.DBInit(path)
+	model.DB = db
+	if err != nil {
 		fmt.Println(err)
-		return 
+		return
 	}
-	show:=model.Show{}
-	show.Url="https://feeds.simplecast.com/dHoohVNH"
-	show.Size=2
-	
-	result,err:=QueryDetail(show)
-	if err!=nil{
+	show := model.Show{}
+	show.Url = "https://feeds.simplecast.com/dHoohVNH"
+	show.Size = 2
+
+	result, err := QueryDetail(show)
+	if err != nil {
 		fmt.Println(err)
-		return 
+		return
 	}
-	for _,v:=range result.Details{
-		fmt.Printf("标题%v\n链接%v\n",v.Title,v.Link)
+	for _, v := range result.Details {
+		fmt.Printf("标题%v\n链接%v\n", v.Title, v.Link)
 	}
-	fmt.Println("count",result.Count)
+	fmt.Println("count", result.Count)
 }

@@ -6,14 +6,13 @@ import (
 	"project/service"
 	"sync"
 	"time"
-	
 )
 
 // 开始
 func WorkStart(times time.Duration) {
 	ticker := time.NewTicker(times)
 	defer ticker.Stop()
-	 WorkController()
+	WorkController()
 	for {
 		select {
 		case <-ticker.C:
@@ -29,26 +28,26 @@ func WorkController() {
 	var show model.Show
 	var wg sync.WaitGroup
 	need := make(chan string, 50)
-    
+
 	//数据库工人
 	wg.Add(1)
-	show.Start=1 
+	show.Start = 1
 	go func() {
 		defer wg.Done()
 		defer close(need)
 		show.Size = 50
 		for {
 			query, err := dao.QueryUrl(show)
-			
+
 			if err != nil {
 				return
 			}
-			if len(query.Info) == 0 {
+			if len(query.Info.([]model.Info)) == 0 {
 				return
 			}
-			
-			for _, v := range query.Info {
-                 
+
+			for _, v := range query.Info.([]model.Info) {
+
 				need <- v.Url
 			}
 			show.Start++
@@ -73,6 +72,5 @@ func WorkController() {
 	}
 
 	wg.Wait()
-   
 
 }

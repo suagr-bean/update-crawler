@@ -7,7 +7,8 @@ import (
 	"project/model"
 	"project/service"
 )
-//添加URL 到数据库
+
+// 添加URL 到数据库
 func AddController(resp http.ResponseWriter, req *http.Request) {
 	var data model.Data
 	var result model.Result

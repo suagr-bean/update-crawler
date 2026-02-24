@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestDelete(t *testing.T){
-	Path:="../data/test2.db"
-    db,_:=pkg.DBInit(Path)
-	model.DB=db
-	model.DB.Where("id=?",1,2).Delete(&model.Info{})
+func TestDelete(t *testing.T) {
+	Path := "/home/user/rssread/go/crawler/go/data/test2.db"
+	db, _ := pkg.DBInit(Path)
+	model.DB = db
+	model.DB.Where("id=?", 1385).Delete(&model.Detail{})
 }
