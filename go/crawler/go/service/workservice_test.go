@@ -7,9 +7,12 @@ import (
 )
 
 func TestWork(t *testing.T) {
-	path := "../data/rss.db"
+	path := "/home/user/rssread/go/crawler/go/data/test2.db"
 	db, _ := pkg.DBInit(path)
 	model.DB = db
 	url := "https://wiwi.blog/blog/rss.xml"
-	WorkService(url)
+	 err:=WorkService(url)
+	 if err!=nil{
+		t.Log(err)
+	 }
 }

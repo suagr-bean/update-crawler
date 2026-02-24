@@ -11,7 +11,7 @@ func ShowService(show model.Show) ([]model.InfoResult, error) {
 	result, err := dao.QueryUrl(show)
 	if err != nil {
 
-		return []model.InfoResult{}, fmt.Errorf("dao.QueryURl wrong:%w info:showstart:%wshowSize%w", err, show.Size, show.Start)
+		return []model.InfoResult{}, fmt.Errorf("dao.QueryURl wrong:%w info:showstart:%dshowSize%d", err, show.Size, show.Start)
 	}
 
 	var r []model.InfoResult

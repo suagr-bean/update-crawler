@@ -1,6 +1,7 @@
 package dao
 
 import (
+	
 	"project/model"
 
 	"gorm.io/gorm"
@@ -14,6 +15,9 @@ func UpdateInfo(info model.Info) error {
 		if err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).Where("url=?", info.Url).First(&deal).Error; err != nil {
 			return err
 		}
+       /* result:=tx.Debug().Model(&deal).Updates(info)
+		fmt.Println("影响行数",result.RowsAffected)
+		*/
 		if err := tx.Model(&deal).Updates(info).Error; err != nil {
 			return err
 		}
@@ -21,11 +25,12 @@ func UpdateInfo(info model.Info) error {
 			for i := range info.Details {
 				info.Details[i].IndexId = deal.ID
 			}
-		}
+		
 		if err := tx.Create(&info.Details).Error; err != nil {
 			return err
 		}
+	}
 		return nil
 	})
-	return nil
+	
 }

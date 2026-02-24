@@ -41,7 +41,10 @@ func WorkService(url string) error {
 	//更新
 
 	if len(detail) > 0 {
-		newinter := int(float64(interval) * 0.9)
+		newinter := int(float64(interval) * 0.5)
+		if newinter<=10{
+			newinter=10
+		}
 		next := Utils.DealTime(newinter)
 		info := model.Info{
 			Url:             url,
@@ -54,7 +57,10 @@ func WorkService(url string) error {
 		dao.UpdateInfo(info)
 		fmt.Println("已更新")
 	} else {
-		newinter := int(float64(interval) * 1.1)
+		newinter := int(float64(interval) * 1.5)
+		if newinter>=10080{
+			newinter=10080
+		}
 		next := Utils.DealTime(newinter)
 		info := model.Info{
 			Url:             url,

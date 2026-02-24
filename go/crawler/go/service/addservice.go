@@ -40,7 +40,7 @@ func AddService(url string) bool {
 
 	} else {
 		content = 0
-		times = 60
+		times = 30
 	}
 
 	next := Utils.DealTime(times)

@@ -2,7 +2,7 @@ package controller
 
 import (
 	"context"
-	"fmt"
+	
 
 	"project/dao"
 	"project/pkg"
@@ -12,18 +12,33 @@ import (
 )
 
 func Do() {
-	now := time.Now()
-	result := dao.QueryNextTime(now)
-	//压栈
-	for _, v := range result {
-		pkg.RDB.LPush(context.Background(), "workurl", v.ID)
-	}
-
+	go Push()
+    go Pull()
+	select{}
+}
+//入栈
+func Push(){
+	ticker:=time.NewTicker(1 *time.Minute)
+    defer ticker.Stop()
 	for {
-		pop, _ := pkg.RDB.BLPop(context.Background(), 0, "workurl").Result()
-		fmt.Println(pop[1])
-		index, _ := strconv.Atoi(pop[1])
-		q := dao.QueryWork(index)
-		_ = service.WorkService(q.Url)
+		select{
+	case<-ticker.C:
+		now:=time.Now()
+		result:=dao.QueryNextTime(now)
+		for _,v:=range result{
+			pkg.RDB.LPush(context.Background(),"workurl",v.ID)
+		}
+	}
+	}
+}
+//出栈
+func Pull(){
+  for{
+   pop,_:=pkg.RDB.BLPop(context.Background(),0,"workurl").Result()
+    go func(id string){
+      index,_:=strconv.Atoi(id)
+	 q:= dao.QueryWork(index)
+	_= service.WorkService(q.Url)
+	}(pop[1])
 	}
 }
