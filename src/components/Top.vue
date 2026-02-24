@@ -1,7 +1,7 @@
 <template>
   <div class="top">
   <h3>订阅工具</h3>
-  <button>🔍</button>
+  <button >🔍</button>
   </div>
 </template>
 <style scoped>

@@ -1,6 +1,7 @@
 <template>
   <div class="all">
     <p v-if="list.length>0">{{list[0].count}}条</p>
+    <van-list v-model:loading="loading" :finished="finished" @load="onLoad" finished-test="到底了">
     <li class="card" v-for="(item,index) in list":key="index">
         <p class="title">{{ item.title }}</p>
         <p class="time">{{ formatTime(item.published_time) }}</p>
@@ -9,35 +10,41 @@
         <button @click="Deal(item)"class="play">▶</button>
         </div>
     </li>
-    <div class="space">
-      <span @click="">加载中</span>
-      <span>到底</span>
-    </div>
+    </van-list>
   </div>
 </template>
 <script setup>
-import {ref,onMounted,defineEmits, defineProps}from 'vue'
+import {ref,defineEmits, defineProps}from 'vue'
 import axios from 'axios'
+import {List as VanList} from'vant'
 const list=ref([])
-
-const props=defineProps(['apiurl'])
-const GetDetail=async()=>{
-    try{
-     const response =await axios.get("/api/showdetail",{params:{
-        url:props.apiurl,
-     }})
-     
-     list.value=response.data.data
-     
-    }catch(e){
-      console.error(e)
-    }
-
+const loading=ref(false )
+const finished=ref(false )
+const page =ref(1)
+const props =defineProps(['apiurl'])
+const emit=defineEmits(['control'])
+const onLoad =async()=>{
+  try{
+   const response =await axios.get("/api/showdetail",{params:{
+    url:props.apiurl,
+    start:page.value,
+    size:50,
+   }
+  })
+  const newdata=response.data.data
+  list.value.push(...newdata)
+  loading.value=false
+   page.value++
+  if (!newdata||newdata.length<50){
+    finished.value=true
+ 
+  }
+}catch(error){
+    loading.value=true
+    finished.value=true
+  }
 }
-onMounted (()=>{
-    GetDetail()
-})
-const emit =defineEmits (['control'])
+
 const Deal=(item)=>{
   emit('control',item);
 };
@@ -106,5 +113,6 @@ li{
    width:95%;
   border:2px solid black;
   border-radius: 15px;
+  margin-bottom:10px;
 }
 </style>

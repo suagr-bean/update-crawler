@@ -23,6 +23,7 @@ func WorkService(url string) error {
 
 	query, _ := dao.QueryDetail(show)
 	interval := query.Info.(model.Info).DoMinute
+	
 	check := query.Details[0].Guid
 	var detail []model.Detail
 	for _, v := range dealData.Articles {
