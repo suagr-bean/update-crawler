@@ -5,7 +5,7 @@
         <p class="title">{{ item.title }}</p>
         <p class="time">{{ formatTime(item.published_time) }}</p>
         <div class="control">
-        <a :href="item.link">原文</a>
+        <a :href="item.link"rel="noreferrer">原文</a>
         <button @click="Deal(item)"class="play">▶</button>
         </div>
     </li>

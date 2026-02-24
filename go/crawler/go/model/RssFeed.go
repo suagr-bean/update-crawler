@@ -1,7 +1,7 @@
 package model
 
 type Dealing interface {
-	Deal(data []byte) DealData
+	Deal(data []byte) (DealData,error)
 }
 type DealData struct {
 	Name       string
@@ -31,10 +31,31 @@ type Item struct {
 		URL string `xml:"url,attr"`
 	} `xml:"enclosure"`
 }
+type Atom struct {
+	Version string
+	Title string  `xml:"title"`
+	AtomItem  []AtomItem `xml:"entry"`
+}
+type AtomItem struct{
+    Title string `xml:"title"`
+	PublishTime string `xml:"published"`
+	Link  []KindLink`xml:"link"`
+}
+//atom 可以有多个不同的link
+type KindLink struct {
+    Rel  string`xml:"rel,attr"`
+	Href string `xml:"href,attr"`
+}
 
 func (rss *Rss) GetName() string {
 	return rss.Title
 }
 func (rss *Rss) Last() string {
 	return rss.Items[0].Title
+}
+func (atom*Atom)GetName()string{
+	return atom.Title
+}
+func (atom*Atom)Last()string{
+	return atom.AtomItem[0].Title
 }

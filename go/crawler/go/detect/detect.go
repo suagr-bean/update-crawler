@@ -45,7 +45,7 @@ func Detect(url string) (model.DealData, error) {
 	switch v {
 	case "RSS2.0":
 		rss := RssProcess{}
-		data = rss.Deal(body)
+		data,_= rss.Deal(body)
 		return data, nil
 	}
 	return data, nil

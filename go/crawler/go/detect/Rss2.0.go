@@ -11,14 +11,14 @@ type RssProcess struct {
 	Data *model.Rss
 }
 
-func(r*RssProcess)Deal(data[]byte)model.DealData{
+func(r*RssProcess)Deal(data[]byte)(model.DealData,error){
 	if len(data)==0{
-      return model.DealData{}
+      return model.DealData{},nil
 	}
 	err:=xml.Unmarshal(data,&r.Data) 
     if err!=nil{
 		fmt.Println(err)
-		return model.DealData{}
+		return model.DealData{},err
 	}
 	all:=[]model.Article{}
 	for _,v:=range r.Data.Items{
@@ -38,5 +38,5 @@ func(r*RssProcess)Deal(data[]byte)model.DealData{
 		LastUpdate:r.Data.Last(),
         Articles:all,
 	 }
-	 return deal
+	 return deal,nil
 }

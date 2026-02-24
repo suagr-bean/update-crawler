@@ -6,6 +6,7 @@ import (
 	"project/detect"
 	"project/model"
 	"time"
+	"fmt"
 )
 
 // 添加URL
@@ -15,7 +16,11 @@ func AddService(url string) bool {
 	if err != nil {
 		return false
 	}
-
+	//健壮性 
+    if result.Name==""{
+		fmt.Println("出的数据是空")
+    return false 
+	}
 	//组装文章
 	var d []model.Detail
 	for _, v := range result.Articles {
