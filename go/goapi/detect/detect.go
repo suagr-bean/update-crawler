@@ -38,7 +38,7 @@ func Detect( cont model.Context) (model.DealData, error) {
 	case "RSS2.0":
 		rss := RssProcess{}
 		data,_= rss.Deal(resp.Body)
-		return data, nil
+	
 	}
 	data.Etag=cont.Etag
 	data.LastModified=cont.LastModified
