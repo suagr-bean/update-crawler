@@ -37,8 +37,8 @@ func Pull(){
    pop,_:=pkg.RDB.BLPop(context.Background(),0,"workurl").Result()
     go func(id string){
       index,_:=strconv.Atoi(id)
-	 q:= dao.QueryWork(index)
-	_= service.WorkService(q.Url)
+	 
+	_= service.WorkService(index)
 	}(pop[1])
 	}
 }

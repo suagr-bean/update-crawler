@@ -1,9 +1,11 @@
 package model
 
-import "io"
 
 type Context struct {
 	Code int
+    Etag string 
+	LastModified string
 	Url  string
-	Body io.ReadCloser
+	Body []byte
+    Version string
 }

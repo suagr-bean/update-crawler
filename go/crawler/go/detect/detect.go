@@ -2,50 +2,43 @@ package detect
 
 import (
 	"encoding/xml"
-	"io"
+	
 	"project/model"
 )
 
-type Result struct {
-	Url        string
-	Lastupdate string
-	Version    string
-	Name       string
-}
 type XmlVersion struct {
 	XMLName xml.Name
 	Version string `xml:"version,attr"`
 }
 
 // 探测
-func Detect(url string) (model.DealData, error) {
+func Detect( cont model.Context) (model.DealData, error) {
 	var data model.DealData
-	resp, err := Crawler(url)
+	var version string
+	resp, err := Crawler(cont)
 	if err != nil {
 		return data, err
 	}
-	if resp.Body == nil {
-		// return data, errors.New("response body is nil") // More specific error
-		return data, err
+	if resp.Code==304{
+		return data,nil
 	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
+	data.Etag=cont.Etag
+	data.LastModified=cont.LastModified
+    if cont.Version==""{
+	v := &XmlVersion{}
+	err = xml.Unmarshal(resp.Body, version)
 	if err != nil {
 		return data, err
 	}
-
-	version := &XmlVersion{}
-	err = xml.Unmarshal(body, version)
-	if err != nil {
-		return data, err
-	}
-
-	v := version.Do()
-	switch v {
+	version= v.Do()
+} else {
+	version=cont.Version
+}
+     
+	switch version{
 	case "RSS2.0":
 		rss := RssProcess{}
-		data,_= rss.Deal(body)
+		data,_= rss.Deal(resp.Body)
 		return data, nil
 	}
 	return data, nil

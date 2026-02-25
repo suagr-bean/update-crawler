@@ -66,7 +66,7 @@ func WorkController() {
 				if !ok {
 					break
 				}
-				service.WorkService(url)
+				service.WorkService(1)
 			}
 		}()
 	}

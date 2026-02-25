@@ -17,6 +17,8 @@ type Info struct {
 	DoMinute        int
 	CrawlerTime     time.Time
 	NextCrawlerTime time.Time `gorm:"index"`
+	LastModified string 
+	Etag string 
 }
 
 // 副表

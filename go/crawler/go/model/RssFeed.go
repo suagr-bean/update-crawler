@@ -1,13 +1,15 @@
 package model
 
 type Dealing interface {
-	Deal(data []byte) (DealData,error)
+	Deal(Context) (DealData,error)
 }
 type DealData struct {
 	Name       string
 	Version    string
 	LastUpdate string
 	Articles   []Article
+	Etag string 
+	LastModified string
 }
 type Article struct {
 	Title       string

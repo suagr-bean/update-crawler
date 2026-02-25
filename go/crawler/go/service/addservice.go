@@ -12,7 +12,10 @@ import (
 // 添加URL
 func AddService(url string) bool {
 	//爬取
-	result, err := detect.Detect(url)
+	 con:=model.Context{
+		Url:url,
+	 }
+	result, err := detect.Detect(con)
 	if err != nil {
 		return false
 	}
@@ -21,6 +24,8 @@ func AddService(url string) bool {
 		fmt.Println("出的数据是空")
     return false 
 	}
+	  etag:=result.Etag
+	  lastModified:=result.LastModified
 	//组装文章
 	var d []model.Detail
 	for _, v := range result.Articles {
@@ -59,6 +64,8 @@ func AddService(url string) bool {
 		DoMinute:        times,
 		CrawlerTime:     time.Now(),
 		NextCrawlerTime: next,
+		LastModified:lastModified,
+		Etag:etag,
 	}
 
 	//存进数据库

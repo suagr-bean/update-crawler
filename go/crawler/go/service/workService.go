@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"project/Utils"
+	
 	"project/dao"
 	"project/detect"
 	"project/model"
@@ -10,21 +10,33 @@ import (
 )
 
 // 检查更新
-func WorkService(url string) error {
-	dealData, err := detect.Detect(url)
+func WorkService( index int) error {
+	q:=dao.QueryWork(index)
+	con:=model.Context{
+		Etag:q.Etag,
+		LastModified:q.LastModified,
+		Url:q.Url,
+       Version:q.Version,
+
+	}
+	dealData, err := detect.Detect(con)
 	if err != nil {
 		return err
 	}
-	show := model.Show{
-		Url:   url,
-		Start: 0,
-		Size:  1,
+	 cal:= model.TimeCal{
+		Interval:q.DoMinute,
+		IsUpdate: false ,
+	 }
+	var info model.Info
+	//处理304情况
+	  
+	if dealData.Etag==""{
+		do:=DoTime(cal)
+      info.DoMinute=do.Interval
+	  info.CrawlerTime=time.Now()
+	  info.NextCrawlerTime=do.Next
 	}
-
-	query, _ := dao.QueryDetail(show)
-	interval := query.Info.(model.Info).DoMinute
-	
-	check := query.Details[0].Guid
+	check := q.Details[0].Guid
 	var detail []model.Detail
 	for _, v := range dealData.Articles {
 		if v.Guid == check {
@@ -42,35 +54,29 @@ func WorkService(url string) error {
 	//更新
 
 	if len(detail) > 0 {
-		newinter := int(float64(interval) * 0.5)
-		if newinter<=10{
-			newinter=10
-		}
-		next := Utils.DealTime(newinter)
-		info := model.Info{
-			Url:             url,
+		cal.IsUpdate=true
+		do:=DoTime(cal)
+		info = model.Info{
+			Url:             con.Url,
 			Details:         detail,
 			LastUpdate:      detail[0].Title,
 			CrawlerTime:     time.Now(),
-			NextCrawlerTime: next,
-			DoMinute:        newinter,
+			NextCrawlerTime: do.Next,
+			DoMinute:        do.Interval,
+			LastModified: dealData.LastModified,
+			Etag: dealData.Etag,
 		}
-		dao.UpdateInfo(info)
 		fmt.Println("已更新")
 	} else {
-		newinter := int(float64(interval) * 1.5)
-		if newinter>=10080{
-			newinter=10080
-		}
-		next := Utils.DealTime(newinter)
-		info := model.Info{
-			Url:             url,
+		do:=DoTime(cal)
+		info = model.Info{
+			Url:             con.Url,
 			CrawlerTime:     time.Now(),
-			NextCrawlerTime: next,
-			DoMinute:        newinter,
+			NextCrawlerTime: do.Next,
+			DoMinute:        do.Interval,
 		}
-		dao.UpdateInfo(info)
 		fmt.Println("没更新")
 	}
+	 dao.UpdateInfo(info)
 	return nil
 }
