@@ -2,7 +2,7 @@ package detect
 
 import (
 	"encoding/xml"
-	
+	"fmt"
 	"project/model"
 )
 
@@ -16,6 +16,7 @@ func Detect( cont model.Context) (model.DealData, error) {
 	var data model.DealData
 	var version string
 	resp, err := Crawler(cont)
+	
 	if err != nil {
 		return data, err
 	}
@@ -27,6 +28,7 @@ func Detect( cont model.Context) (model.DealData, error) {
 	v := &XmlVersion{}
 	err = xml.Unmarshal(resp.Body, v)
 	if err != nil {
+	  fmt.Println("有错误")
 		return data, err
 	}
 	version= v.Do()
@@ -37,11 +39,15 @@ func Detect( cont model.Context) (model.DealData, error) {
 	switch version{
 	case "RSS2.0":
 		rss := RssProcess{}
-		data,_= rss.Deal(resp.Body)
+		data,err= rss.Deal(resp.Body)
+		if err!=nil{
+			fmt.Println(err)
+		}
 	
 	}
-	data.Etag=cont.Etag
-	data.LastModified=cont.LastModified
+	data.Etag=resp.Etag
+	
+	data.LastModified=resp.LastModified
 	return data, nil
 }
 

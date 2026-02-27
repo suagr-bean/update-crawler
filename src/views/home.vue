@@ -77,7 +77,7 @@ li{
 height:100px;
 }
 .context_type{
-  background-color: orange;
+  background-color:white;
   text-align:center;
 }
 </style>

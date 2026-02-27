@@ -9,10 +9,10 @@ import (
 // 抓取
 func Crawler( cont model.Context) (model.Context, error) {
 	client := http.Client{}
-   context:= model.Context{}
+  
 	req, err := http.NewRequest("GET", cont.Url, nil)
 	if err != nil {
-		return context, err
+		return model.Context{}, err
 	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 	req.Header.Set("Accept", "application/xml,text/xml,*/*")
@@ -24,7 +24,7 @@ func Crawler( cont model.Context) (model.Context, error) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return context, err
+		return model.Context{}, err
 	}
 	defer resp.Body.Close()
 	cont.Code=resp.StatusCode

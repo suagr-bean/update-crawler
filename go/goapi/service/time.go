@@ -12,10 +12,10 @@ func DoTime( cal model.TimeCal)model.TimeCal {
 	var next time.Time
 	//更新
     if cal.IsUpdate ==true{
-	  new= int(float64(cal.Interval)*0.9)
+	  new= int(float64(cal.Interval)*0.7)
 	  
 	}else {
-		new =int(float64(cal.Interval)*1.1)
+		new =int(float64(cal.Interval)*1.3)
 
 	}
      next=Utils.DealTime(new)

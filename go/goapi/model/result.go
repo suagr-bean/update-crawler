@@ -13,6 +13,7 @@ type DetailData struct {
 	Link          string `json:"link"`
 	AutoLink      string `json:"auto_link"`
 	PublishedTime int64  `json:"published_time"`
+	
 }
 
 type QueryResult struct {

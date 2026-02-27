@@ -30,8 +30,8 @@ const Send=(item)=>{
     </main>
     <footer class="fixed-footer">
   
-      <playbutton :info="receive"/>
-      <Bottom
+      <playbutton  class="playbutton":info="receive"/>
+      <Bottom class="navbottom"
         @show-home="currentView = 'Home'"
         @show-sub="currentView = 'Sub'"
       />
@@ -39,20 +39,31 @@ const Send=(item)=>{
   </div>
 </template>
 
-<style scoped>
+<style scoped >
 .show {
   overflow-y: auto;
-  flex: 1;
-  padding: 8px;
+  flex: 0.8;
+  overflow-x:hidden;
+  padding: 5px;
   /* Increased padding to accommodate taller footer */
   padding-bottom: 150px; 
 }
 .fixed-footer {
   position: fixed;
-  bottom: 0;
+  bottom: 3vh;
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: white; /* Or any color that matches your design */
+   /* Or any color that matches your design */
+}
+.navbottom{
+   width:80%;
+   margin:0 auto; 
+}
+.playbutton{
+  width:93%;
+  margin:0 auto 1px auto;
+  height:50px;
+  background-color:orange;
 }
 </style>

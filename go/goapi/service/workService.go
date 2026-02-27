@@ -19,6 +19,12 @@ func WorkService( index int) error {
        Version:q.Version,
 
 	}
+	 shows:=model.Show{
+       Start:1,
+	   Size:1,
+	   Url:q.Url,
+	 }
+    d,_:=dao.QueryDetail(shows)
 	dealData, err := detect.Detect(con)
 	if err != nil {
 		return err
@@ -37,7 +43,8 @@ func WorkService( index int) error {
 	  info.NextCrawlerTime=do.Next
        fmt.Println("304 没更新")
 	}else {
-	check := q.Details[0].Guid
+		//和数据库存的guid比较
+	check :=d.Details[0].Guid
 	var detail []model.Detail
 	for _, v := range dealData.Articles {
 		if v.Guid == check {

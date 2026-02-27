@@ -61,6 +61,7 @@ func QueryDetail(show model.Show) (model.QueryResult, error) {
 		Details: detail,
 		Info:    info,
 		Count:   count,
+	
 	}, nil
 
 }
