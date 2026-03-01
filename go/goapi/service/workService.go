@@ -11,13 +11,13 @@ import (
 
 // 检查更新
 func WorkService( index int) error {
+	fmt.Println(index)
 	q:=dao.QueryWork(index)
 	con:=model.Context{
 		Etag:q.Etag,
 		LastModified:q.LastModified,
 		Url:q.Url,
        Version:q.Version,
-
 	}
 	 shows:=model.Show{
        Start:1,
@@ -38,6 +38,7 @@ func WorkService( index int) error {
 	  
 	if dealData.Etag==""{
 		do:=DoTime(cal)
+	  info.Url=q.Url
       info.DoMinute=do.Interval
 	  info.CrawlerTime=time.Now()
 	  info.NextCrawlerTime=do.Next
