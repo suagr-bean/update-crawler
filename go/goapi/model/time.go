@@ -6,4 +6,5 @@ type TimeCal struct {
 	Interval int
 	IsUpdate bool
 	Next     time.Time
+	Try  int 
 }

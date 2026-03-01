@@ -31,6 +31,17 @@ func UpdateInfo(info model.Info) error {
 		}
 	}
 		return nil
-	})
-	
+	})	
+}
+//更新频率和下次爬取时间
+func UpdateDoNext(url string ,do int, next int64)error{
+   update :=map[string]interface{}{
+	 "DoMinute":do,
+	 "NextCrawlerTime":next,
+   }
+ err:= model.DB.Model(&model.Info{}).Where("url=?",url).Updates(update).Error
+  if err!=nil{
+	return err
+  }
+  return nil
 }

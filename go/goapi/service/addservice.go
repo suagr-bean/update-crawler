@@ -1,7 +1,7 @@
 package service
 
 import (
-	"project/Utils"
+	
 	"project/dao"
 	"project/detect"
 	"project/model"
@@ -41,19 +41,13 @@ func AddService(url string) bool {
 	}
 	//content 1代表播客 0代表文章
 	var content int
-	var times int
 
 	//判断有无音频
 	if result.Articles[0].AutoLink != "" {
 		content = 1
-		times = 1440
-
 	} else {
-		content = 0
-		times = 30
+		content = 0	
 	}
-
-	next := Utils.DealTime(times)
 	info := model.Info{
 		Name:            result.Name,
 		Version:         result.Version,
@@ -61,9 +55,7 @@ func AddService(url string) bool {
 		Url:             url,
 		Details:         d,
 		ContentType:     content,
-		DoMinute:        times,
-		CrawlerTime:     time.Now(),
-		NextCrawlerTime: next,
+		CrawlerTime:     time.Now().Unix(),
 		LastModified:lastModified,
 		Etag:etag,
 	}
@@ -73,5 +65,9 @@ func AddService(url string) bool {
 	if err != nil {
 		return false
 	}
+	//处理高频时间 存进数据库
+   frequency:= Caltimes(url)
+    next:=CalDo(frequency)
+	dao.UpdateDoNext(url,frequency,next)
 	return true
 }

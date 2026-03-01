@@ -1,7 +1,7 @@
 package model
 
 import "gorm.io/gorm"
-import "time"
+
 
 var DB *gorm.DB
 
@@ -15,10 +15,12 @@ type Info struct {
 	LastUpdate      string
 	ContentType     int //0 文章 1播客
 	DoMinute        int
-	CrawlerTime     time.Time
-	NextCrawlerTime time.Time `gorm:"index"`
+	Try             int
+	CrawlerTime     int64
+	NextCrawlerTime int64 `gorm:"index"`
 	LastModified string 
 	Etag string 
+
 }
 
 // 副表

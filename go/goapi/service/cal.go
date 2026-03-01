@@ -6,6 +6,16 @@ import (
 	"fmt"
 	"time"
 )
+// 传高频的时间 返回下次爬的时间
+func CalDo(high int)int64{
+	now:=time.Now().Hour()
+	wait:=(high-now +24)%24
+
+	fmt.Println(wait)
+	fmt.Println("now",now)
+   next:= time.Now().Add(time.Duration(wait)*time.Hour)
+	return next.Unix()
+}
 
 func Caltimes(url string) int{
 	//dao层拿到30篇文章
@@ -24,10 +34,9 @@ func Caltimes(url string) int{
 		 t:=time.Unix(result.Details[i].PublishedTime,0)
 		 hour:=t.Hour()
          hourly[hour]++
-	   
 	  }
 	}else{
-      return 12*60
+      return 12
 	}
 	max:=hourly[0]
 	index:=0//计数桶的时间
@@ -37,5 +46,5 @@ func Caltimes(url string) int{
 			max=v
 		}
 	}
-	return index*60 //返回分钟
+	return index //返回小时
 }
